@@ -1,0 +1,21 @@
+api:
+  domain: "api.coingecko.com"
+  base_path: "/api/v3"
+  endpoint: "/coins/markets"
+  #key: ""
+
+  database:
+  postgres: "db_crypto"
+
+spring:
+  datasource:
+    driverClassName: "org.postgresql.Driver"
+    url: "jdbc:postgresql://localhost:5432/${database.postgres}"
+    username: "postgres"
+    password: "admin1234"
+
+spring.jpa:
+  # database-platform: "org.hibernate.dialect.PostgreSQLDialect"
+  show-sql: true
+  hibernate.ddl-auto: update # update
+  # Hibernate ddl auto (create, create-drop, validate, update)
