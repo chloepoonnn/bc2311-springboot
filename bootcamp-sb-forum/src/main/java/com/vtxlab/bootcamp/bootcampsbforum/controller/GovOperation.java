@@ -23,7 +23,7 @@ public interface GovOperation {
 
         @GetMapping(value = "/userComments")
         @ResponseStatus(value = HttpStatus.OK)
-        UserCommentDTO getUserComments(@RequestParam(value = "id") int userId);
+        ApiResp<List<UserCommentDTO>> getUserComments(@RequestParam(value = "email") int email);
 
         // @GetMapping(value = "/user2")
         // ApiResp<UserPostDTO> getUser2(String userId) throws ResourceNotFound;

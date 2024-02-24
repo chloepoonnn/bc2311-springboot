@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.UserDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.CommentDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.PostDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserCommentDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserPostDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.model.Comments;
 import com.vtxlab.bootcamp.bootcampsbforum.model.Posts;
 import com.vtxlab.bootcamp.bootcampsbforum.model.User;
 
@@ -41,6 +43,12 @@ public class GovMapper {
         .build();
   }
 
+  public com.vtxlab.bootcamp.bootcampsbforum.entity.CommentsEntity mapCommentsEntity(
+      Comments comment) {
+    return this.modelMapper.map(comment,
+        com.vtxlab.bootcamp.bootcampsbforum.entity.CommentsEntity.class);
+  }
+
 
   public UserPostDTO map(User user, List<Posts> posts) {
 
@@ -63,30 +71,32 @@ public class GovMapper {
         .build();
     // ModelMapper mm = new ModelMapper();
   }
-    // ModelMapper mm = new ModelMapper();
-    // map all fields by attributes names
-    // UserPostDTO userPostDTO = this.modelMapper.map(user, UserPostDTO.class);
-    // userPostDTO.setPostDTOs(postDTOs);
-    // return userPostDTO;
+  // ModelMapper mm = new ModelMapper();
+  // map all fields by attributes names
+  // UserPostDTO userPostDTO = this.modelMapper.map(user, UserPostDTO.class);
+  // userPostDTO.setPostDTOs(postDTOs);
+  // return userPostDTO;
+
+
+  public UserCommentDTO mapToUserCommentDTO(User user,
+      List<Comments> comments) {
+
+    List<CommentDTO> commentDTOs = comments.stream() //
+        .filter(e -> e.getEmail() == user.getEmail()) //
+        .map(e -> {
+          return CommentDTO.builder() //
+              .id(e.getId()) //
+              .name(e.getName()) //
+              .email(e.getEmail()) //
+              .body(e.getBody()) //
+              .build();
+        }).collect(Collectors.toList());
+
+    return UserCommentDTO.builder() //
+        .id(user.getId()) //
+        .username(user.getName()) //
+        .email(user.getEmail()) //
+        .build();
+
   }
-
-  // public static UserCommentDTO map(Comments comment, List<Comments> comments) {
-
-  // List<CommentDTO> commentDTOs = comments.stream() //
-  // .filter(e -> e.getId() == comment.getId()) //
-  // .map(e -> {
-  // return CommentDTO.builder() //
-  // .id(e.getId()) //
-  // .name(e.getName()) //
-  // .email(e.getEmail()) //
-  // .body(e.getBody()) //
-  // .build();
-  // }).collect(Collectors.toList());
-
-  // return UserCommentDTO.builder() //
-  // .id(comment.getId()) //
-  // .username(comment.getName()) //
-  // .email(comment.getEmail()) //
-  // // .phone(comment.get) //
-  // .build();
-
+}

@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.vtxlab.bootcamp.bootcampsbforum.mapper.GovMapper;
+import com.vtxlab.bootcamp.bootcampsbforum.model.Comments;
 import com.vtxlab.bootcamp.bootcampsbforum.model.User;
+import com.vtxlab.bootcamp.bootcampsbforum.service.CommentService;
 import com.vtxlab.bootcamp.bootcampsbforum.service.ForumDatabaseService;
 import com.vtxlab.bootcamp.bootcampsbforum.service.GovService;
 import com.vtxlab.bootcamp.bootcampsbforum.service.UserService;
@@ -20,8 +22,10 @@ public class GovServiceHolder implements GovService {
   private ForumDatabaseService forumDatabaseService;
 
   @Autowired
+  private CommentService commentService;
+  @Autowired
   private GovMapper govMapper;
-  //private GovMapper govMapper = new GovMapper();
+  // private GovMapper govMapper = new GovMapper();
 
   @Override
   public List<User> getUsers() {
@@ -48,4 +52,30 @@ public class GovServiceHolder implements GovService {
     }
     return user;
   }
+
+  @Override
+  public Comments getComment(String email) {
+    Comments comments = commentService.getComment(email);
+    if (comments != null) {
+      // convert dto user to entitiy user
+      forumDatabaseService.saveComment(govMapper.mapCommentsEntity(comments));
+    }
+    return comments;
+  }
+
+  public List<Comments> getComments() {
+    // Call JPH
+    List<Comments> comments = commentService.getComments();
+    // Clear DB
+    forumDatabaseService.deleteAllUsers();
+    // save all
+    List<com.vtxlab.bootcamp.bootcampsbforum.entity.CommentsEntity> commentsEntities =
+        comments.stream()//
+            .map(e -> govMapper.mapCommentsEntity(e))//
+            .collect(Collectors.toList());
+    forumDatabaseService.saveComments(commentsEntities);
+    // return
+    return comments;
+  }
 }
+

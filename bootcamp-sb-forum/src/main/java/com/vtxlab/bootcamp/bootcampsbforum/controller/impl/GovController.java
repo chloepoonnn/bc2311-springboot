@@ -1,7 +1,6 @@
 package com.vtxlab.bootcamp.bootcampsbforum.controller.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,8 @@ public class GovController implements GovOperation {
   @Autowired
   private PostsService postService;
 
+  @Autowired
+  private CommentService commentService;
   // @Autowired
   // private GovMapper govMapper;
 
@@ -64,7 +65,7 @@ public class GovController implements GovOperation {
         .data(userPostDTOs)//
         .build();
   }
-  
+
   @Override
   public ApiResp<UserPostDTO> getUser(int userId) {
     // 1. User Service
@@ -105,9 +106,22 @@ public class GovController implements GovOperation {
   }
 
   @Override
-  public UserCommentDTO getUserComments(int userID) {
-    return null;
+  public ApiResp<List<UserCommentDTO>> getUserComments(int email) {
+    User user = govService.getUser(email);
+
+    List<UserCommentDTO> userCommentDTOs = commentService.getComments().stream()
+        .filter(e -> e.getEmail() == user.getEmail())
+        .map(comment -> modelMapper.map(comment, UserCommentDTO.class))
+        .collect(Collectors.toList());
+
+    return ApiResp.<List<UserCommentDTO>>builder() // Amended return type
+        .code(Syscode.OK.getCode()).message(Syscode.OK.getMessage())
+        .data(userCommentDTOs).build();
   }
+
+
+
+
 
   @Override
   public String testNPE() {

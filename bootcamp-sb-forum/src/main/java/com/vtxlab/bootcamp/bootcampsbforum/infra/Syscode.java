@@ -11,9 +11,9 @@ public enum Syscode {
   No_Such_Element("500001", "NoSuchElement"), //
   JPH_NOT_AVALIABLE("100001", "Json Place Holder API is unavaliable"),
   // runtime exception
-  REST_CLIENT_EXCEPTION("900001", "RestClient Exception."), NPE_EXCEPTION(
-      "200002",
-      "NPE EXCEPTION"), GENERAL_EXCEPTION("999999", "GENERAL EXCEPTION"),;
+  REST_CLIENT_EXCEPTION("900001", "RestClient Exception."), //
+  NPE_EXCEPTION("200002", "NPE EXCEPTION"), //
+  GENERAL_EXCEPTION("999999", "GENERAL EXCEPTION"),;
 
   private String code;
 
