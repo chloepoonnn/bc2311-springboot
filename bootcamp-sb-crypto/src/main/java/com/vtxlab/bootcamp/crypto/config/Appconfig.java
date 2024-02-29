@@ -6,15 +6,31 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class Appconfig {
-
+public class AppConfig {
+  
   @Bean
   RestTemplate restTemplate() {
     return new RestTemplate();
   }
 
   @Bean
-  ModelMapper modelMapper() {
+  ModelMapper ModelMapper() {
     return new ModelMapper();
   }
+
+  // @Bean
+  // ObjectMapper objectMapper() {
+  // return new ObjectMapper();
+  // }
+
+  // @Bean
+  // RedisConnectionFactory redisConnectionFactory() {
+  // return new LettuceConnectionFactory();
+  // }
+
+  // @Bean
+  // RedisHelper redisHelper(RedisConnectionFactory factory,
+  // ObjectMapper objectMapper) {
+  // return new RedisHelper(factory, objectMapper);
+  // }
 }

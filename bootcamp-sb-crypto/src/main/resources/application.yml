@@ -1,10 +1,13 @@
+server:
+  port: 8090
+  
 api:
   domain: "api.coingecko.com"
   base_path: "/api/v3"
   endpoint: "/coins/markets"
   #key: ""
 
-  database:
+database:
   postgres: "db_crypto"
 
 spring:

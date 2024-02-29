@@ -5,12 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+// @ToString
+// @Builder
+// @AllArgsConstructor
+// @NoArgsConstructor
 public class Coingecko {
   private String id;
 
@@ -23,7 +28,7 @@ public class Coingecko {
   @JsonProperty("current_price")
   private double currentPrice;
 
-  @JsonProperty("cap")
+  @JsonProperty("market_cap")
   private long marketCap;
 
   @JsonProperty("market_cap_rank")
