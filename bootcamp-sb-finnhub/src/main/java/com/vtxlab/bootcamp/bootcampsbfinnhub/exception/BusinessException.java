@@ -1,4 +1,5 @@
-package com.vtxlab.bootcamp.crypto.exception;
+package com.vtxlab.bootcamp.bootcampsbfinnhub.exception;
+
 
 public class BusinessException extends Exception {
   private String code;

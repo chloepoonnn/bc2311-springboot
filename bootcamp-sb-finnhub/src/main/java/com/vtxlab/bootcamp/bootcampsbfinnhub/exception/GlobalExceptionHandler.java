@@ -1,11 +1,11 @@
-package com.vtxlab.bootcamp.crypto.exception;
+package com.vtxlab.bootcamp.bootcampsbfinnhub.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.RestClientException;
-import com.vtxlab.bootcamp.crypto.infra.ApiRes;
+import com.vtxlab.bootcamp.bootcampsbfinnhub.infra.ApiRes;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,15 +29,4 @@ public class GlobalExceptionHandler {
         .data(null) //
         .build();
   }
-
-  @ExceptionHandler(InvalidOpeartionException.class) // catch
-  @ResponseStatus(value = HttpStatus.BAD_REQUEST) // TBC.
-  public ApiRes<Void> inavalidOperationExceptionHandler(InvalidOpeartionException e) {
-    return ApiRes.<Void>builder() //
-        .code(ExceptionEnum.INVALID_OPERATION.getCode()) //
-        .message(ExceptionEnum.INVALID_OPERATION.getMessage()) //
-        .data(null) //
-        .build();
-  }
-
 }

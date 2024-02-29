@@ -1,4 +1,4 @@
-package com.vtxlab.bootcamp.crypto.exception;
+package com.vtxlab.bootcamp.bootcampsbfinnhub.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum ExceptionEnum {
   OK(000000, "OK"), //
-  INVALID_INPUT(9, "Invalid input"), //
-  INVALID_OPERATION(10, "Invalid operation"), //
+  INVALID_INPUT(99999, "Invalid Symbol"), //
   // Api error
-  API_ERROR(100, "API error");
+  API_ERROR(10000, "API error");
   //
 
   private int code;

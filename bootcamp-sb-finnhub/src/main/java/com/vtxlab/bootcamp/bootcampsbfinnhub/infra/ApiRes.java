@@ -1,4 +1,4 @@
-package com.vtxlab.bootcamp.crypto.infra;
+package com.vtxlab.bootcamp.bootcampsbfinnhub.infra;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +11,5 @@ public class ApiRes<T> {
   private String message;
 
   private T data;
-
 
 }
