@@ -26,17 +26,17 @@ public interface UserOperation {
 
   @GetMapping(value = "/users/lat/{lat}")
   @ResponseStatus(value = HttpStatus.OK)
-  ApiResp<List<com.vtxlab.bootcamp.bootcampsbforum.entity.User>> getUsersByLatGtrThan(
+  ApiResp<List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity>> getUsersByLatGtrThan(
       @PathVariable(value = "lat") String latitude);
 
   @GetMapping(value = "/users/email/{email}/phone/{phone}")
   @ResponseStatus(value = HttpStatus.OK)
-  ApiResp<List<com.vtxlab.bootcamp.bootcampsbforum.entity.User>> getUsersByEmailAndPhone(
+  ApiResp<List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity>> getUsersByEmailAndPhone(
       @PathVariable String email, @PathVariable String phone);
 
 
   @PutMapping
   @ResponseStatus(value = HttpStatus.OK)
-  ApiResp<com.vtxlab.bootcamp.bootcampsbforum.entity.User> updateUser(@PathVariable Long userId,
-      @RequestBody com.vtxlab.bootcamp.bootcampsbforum.entity.User email);
+  ApiResp<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity> updateUser(@PathVariable Long userId,
+      @RequestBody com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity email);
 }

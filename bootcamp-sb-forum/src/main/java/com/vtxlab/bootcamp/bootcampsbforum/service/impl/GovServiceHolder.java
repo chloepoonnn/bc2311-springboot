@@ -34,7 +34,7 @@ public class GovServiceHolder implements GovService {
     // Clear DB
     forumDatabaseService.deleteAllUsers();
     // save all
-    List<com.vtxlab.bootcamp.bootcampsbforum.entity.User> userEntities =
+    List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity> userEntities =
         users.stream()//
             .map(e -> govMapper.mapEntity(e))//
             .collect(Collectors.toList());

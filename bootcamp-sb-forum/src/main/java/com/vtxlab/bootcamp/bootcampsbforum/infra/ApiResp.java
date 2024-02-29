@@ -71,6 +71,13 @@ public class ApiResp<T> {
       return this;
     }
 
+    public ApiResponseBuilder<T> concatCustomMessage(String customMsg) { // instance method
+      if (this.code == null || this.message == null || customMsg.isBlank())
+        throw new RuntimeException();
+      this.message = this.message.concat(customMsg);
+      return this;
+    }
+
     public ApiResponseBuilder<T> ok() {
       this.code = Syscode.OK.getCode();
       this.message = Syscode.OK.getMessage();
@@ -78,6 +85,8 @@ public class ApiResp<T> {
     }
 
     public ApiResp<T> build() { // instance method -> this
+      if (this.code == null || this.message == null)
+        throw new RuntimeException();
       return new ApiResp<>(this);
     }
   }

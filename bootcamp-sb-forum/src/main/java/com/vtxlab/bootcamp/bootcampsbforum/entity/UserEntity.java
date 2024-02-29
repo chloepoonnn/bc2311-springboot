@@ -1,11 +1,15 @@
 package com.vtxlab.bootcamp.bootcampsbforum.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +25,10 @@ import lombok.Setter;
 @Setter
 @Builder
 
-public class User implements Serializable {
+public class UserEntity implements Serializable {
 
   private static final long serialVersionUID = 3L;
-
+  // @ToString // serialization issue
   @Column(name = "USER_ID") // for db column name, not for field name.
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,4 +66,6 @@ public class User implements Serializable {
   @Column(name = "COMPANY_BUSINESS_SERVICE")
   private String cBusService;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // serialization
+  private List<PostEntity> posts = new ArrayList<>();
 }

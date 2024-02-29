@@ -6,10 +6,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.UserDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.UserPostRequestDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.UserPostRequestDTO.PostRequestDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.CommentDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.PostDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserCommentDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserPostDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.entity.PostEntity;
+import com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity;
 import com.vtxlab.bootcamp.bootcampsbforum.model.Comments;
 import com.vtxlab.bootcamp.bootcampsbforum.model.Posts;
 import com.vtxlab.bootcamp.bootcampsbforum.model.User;
@@ -21,12 +25,19 @@ public class GovMapper {
   @Autowired
   private ModelMapper modelMapper;
 
+  @Autowired
+  private PostMapper postMapper;
+
+  @Autowired
+  private PostEntity postEntity;
+
   public UserDTO map(User user) {
     return this.modelMapper.map(user, UserDTO.class);
   }
 
-  public com.vtxlab.bootcamp.bootcampsbforum.entity.User mapEntity(User user) {
-    return com.vtxlab.bootcamp.bootcampsbforum.entity.User.builder()//
+  public com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity mapEntity(
+      User user) {
+    return com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity.builder()//
         .name(user.getName()) //
         .username(user.getUsername()).website(user.getWebsite())//
         .addrLat(user.getAddress().getGeo().getLatitude())//
@@ -69,8 +80,26 @@ public class GovMapper {
         .phone(user.getPhone()) //
         .postDTOs(postDTOs) //
         .build();
-    // ModelMapper mm = new ModelMapper();
   }
+
+  public UserEntity mapEntity(UserPostRequestDTO dto) {
+
+    UserEntity userEntity = modelMapper.map(dto, UserEntity.class);
+    // List<PostRequestDTO> postRequestDTO = dto.getPosts();
+
+    List<PostEntity> postEntities = dto.getPosts().stream() //
+        .map(e -> {
+          PostEntity postEntity = PostEntity.builder().title(e.getTitle())
+              .body(e.getBody()).build();
+          postEntity.setUser(userEntity);
+          return postEntity;
+        }).collect(Collectors.toList());
+    userEntity.setPosts(postEntities);
+    return userEntity;
+  }
+
+  // ModelMapper mm = new ModelMapper();
+
   // ModelMapper mm = new ModelMapper();
   // map all fields by attributes names
   // UserPostDTO userPostDTO = this.modelMapper.map(user, UserPostDTO.class);

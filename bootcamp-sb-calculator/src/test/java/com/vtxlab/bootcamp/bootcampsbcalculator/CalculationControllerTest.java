@@ -17,62 +17,65 @@ import com.vtxlab.bootcamp.bootcampsbcalculator.service.CalculationService;
 
 @WebMvcTest(ClientController.class)
 public class CalculationControllerTest {
-  @Autowired
-  private MockMvc mockMvc; // similar to postman
+    @Autowired
+    private MockMvc mockMvc; // similar to postman
 
-  // @Autowired // You cannot autowired service bean in WebMvcTest env.
-  @MockBean
-  private ClientController clientController;
+    // @Autowired // You cannot autowired service bean in WebMvcTest env.
+    @MockBean
+    private ClientController clientController;
 
-  @MockBean
-  private CalculationService calculationService;
+    @MockBean
+    private CalculationService calculationService;
 
-  @Test
-  void testCalculateByRequestParam() throws Exception {
-    String returnValue = "20";
-    Mockito.when(calculationService.doOperation("12", "8", "add"))
-        .thenReturn(returnValue);
-    mockMvc
-        .perform(MockMvcRequestBuilders.get(
-            "/api/vi/calculation/x/{x}/y/{y}/operation/{operation}", "12", "8",
-            "add"))//
-        .andExpect(MockMvcResultMatchers.status().isOk()) //
-        .andExpect(MockMvcResultMatchers.content().string(returnValue)) //
-        .andDo(MockMvcResultHandlers.print()); //
-  }
+    @Test
+    void testCalculateByRequestParam() throws Exception {
+        String returnValue = "20";
+        Mockito.when(calculationService.doOperation("12", "8", "add"))
+                .thenReturn(returnValue);
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                "/api/vi/calculation/x/{x}/y/{y}/operation/{operation}", "12",
+                "8", "add"))//
+                .andExpect(MockMvcResultMatchers.status().isOk()) //
+                .andExpect(MockMvcResultMatchers.content().string(returnValue)) //
+                .andDo(MockMvcResultHandlers.print()); //
+    }
 
-  @Test
-  void testCalculateByRequestBody() throws Exception {
-    String returnValue = "20";
-    String contentString = new ObjectMapper().writeValueAsString(new Response("30","10","sub",null));
-    Mockito.when(calculationService.doOperation("30", "10", "sub"))//
-        .thenReturn(returnValue);
-    mockMvc.perform(MockMvcRequestBuilders.post("/api/vi/calculation")//
-        .contentType(MediaType.APPLICATION_JSON) //
-        .content(contentString)) //
-        .andExpect(MockMvcResultMatchers.jsonPath("$.x").value("40")) //
-        .andExpect(MockMvcResultMatchers.jsonPath("$.y").value("2")) //
-        .andExpect(MockMvcResultMatchers.jsonPath("$.operation").value("div")) //
-        .andExpect(MockMvcResultMatchers.status().isOk()) //
-        .andExpect(MockMvcResultMatchers.content().string(returnValue)) //
-        .andDo(MockMvcResultHandlers.print()); //
-  }
+    @Test
+    void testCalculateByRequestBody() throws Exception {
+        String returnValue = "20";
+        String contentString = new ObjectMapper()
+                .writeValueAsString(new Response("30", "10", "sub", null));
+        Mockito.when(calculationService.doOperation("30", "10", "sub"))//
+                .thenReturn(returnValue);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/vi/calculation")//
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(contentString)) //
+                .andExpect(MockMvcResultMatchers.jsonPath("$.x").value("40")) //
+                .andExpect(MockMvcResultMatchers.jsonPath("$.y").value("2")) //
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operation")
+                        .value("div")) //
+                .andExpect(MockMvcResultMatchers.status().isOk()) //
+                .andExpect(MockMvcResultMatchers.content().string(returnValue)) //
+                .andDo(MockMvcResultHandlers.print()); //
+    }
 
-  @Test
-  void testCalculateByPathVariable() throws Exception {
-    String returnValue = "20";
-    Mockito.when(calculationService.doOperation("40", "2", "div"))
-        .thenReturn(returnValue);
+    @Test
+    void testCalculateByPathVariable() throws Exception {
+        String returnValue = "20";
+        Mockito.when(calculationService.doOperation("40", "2", "div"))
+                .thenReturn(returnValue);
 
-    mockMvc
-        .perform(MockMvcRequestBuilders.get(
-            "/api/vi/calculation/x/{x}/y/{y}/operation/{operation}", "40", "2",
-            "div"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().string(returnValue))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.x").value("40"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.y").value("2"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.operation").value("div"))
-        .andDo(MockMvcResultHandlers.print());
-  }
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                "/api/vi/calculation/x/{x}/y/{y}/operation/{operation}", "40",
+                "2", "div")).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(returnValue))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.x").value("40"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.y").value("2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operation")
+                        .value("div"))
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+   
 }

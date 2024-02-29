@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.bootcamp.bootcampsbforum.controller.GovOperation;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.UserDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.UserIdRQTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.PostDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserCommentDTO;
 import com.vtxlab.bootcamp.bootcampsbforum.dto.gov.UserPostDTO;
@@ -67,16 +68,16 @@ public class GovController implements GovOperation {
   }
 
   @Override
-  public ApiResp<UserPostDTO> getUser(int userId) {
+  public ApiResp<UserPostDTO> getUser(UserIdRQTO userdto) {
     // 1. User Service
     // 2. Post Service
     // 3. relate the user and post
     // 4. set DTO object and return
 
-    User user = govService.getUser(userId); // call JPH + save DB
+    User user = govService.getUser(Integer.valueOf(userdto.getId())); // call JPH + save DB
 
     List<PostDTO> postDTOs = postService.getPosts().stream()//
-        .filter(e -> e.getId() == userId)//
+        .filter(e -> e.getId() == user.getId())//
         .map(e -> {
           return PostDTO.builder()//
               .id(e.getId())//
@@ -118,8 +119,6 @@ public class GovController implements GovOperation {
         .code(Syscode.OK.getCode()).message(Syscode.OK.getMessage())
         .data(userCommentDTOs).build();
   }
-
-
 
 
 

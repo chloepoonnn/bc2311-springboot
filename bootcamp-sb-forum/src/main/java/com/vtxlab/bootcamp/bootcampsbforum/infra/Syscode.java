@@ -13,7 +13,8 @@ public enum Syscode {
   // runtime exception
   REST_CLIENT_EXCEPTION("900001", "RestClient Exception."), //
   NPE_EXCEPTION("200002", "NPE EXCEPTION"), //
-  GENERAL_EXCEPTION("999999", "GENERAL EXCEPTION"),;
+  GENERAL_EXCEPTION("999999", "GENERAL EXCEPTION"), //
+  REQUEST_PARAM_EXCEPTION("900002", "Invaild Request Parameter or Body.");
 
   private String code;
 

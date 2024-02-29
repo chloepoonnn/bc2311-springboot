@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.vtxlab.bootcamp.bootcampsbforum.entity.CommentsEntity;
-import com.vtxlab.bootcamp.bootcampsbforum.entity.User;
+import com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity;
 import com.vtxlab.bootcamp.bootcampsbforum.repository.CommentsRepository;
 import com.vtxlab.bootcamp.bootcampsbforum.repository.UserRepository;
 import com.vtxlab.bootcamp.bootcampsbforum.service.ForumDatabaseService;
@@ -18,7 +18,7 @@ public class ForumDatabseHolder implements ForumDatabaseService {
   private CommentsRepository commentsRepository;
 
   @Override
-  public List<User> saveUsers(List<User> users) {
+  public List<UserEntity> saveUsers(List<UserEntity> users) {
     return userRepository.saveAll(users);
   }
 
@@ -28,7 +28,7 @@ public class ForumDatabseHolder implements ForumDatabaseService {
   }
 
   @Override
-  public User saveUser(User user) {
+  public UserEntity saveUser(UserEntity user) {
     return userRepository.save(user);
   }
 

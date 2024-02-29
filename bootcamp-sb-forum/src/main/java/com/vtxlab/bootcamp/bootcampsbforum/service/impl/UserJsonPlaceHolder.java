@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.vtxlab.bootcamp.bootcampsbforum.dto.UserPostRequestDTO;
+import com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity;
 import com.vtxlab.bootcamp.bootcampsbforum.infra.ResourceNotFound;
 import com.vtxlab.bootcamp.bootcampsbforum.infra.Scheme;
 import com.vtxlab.bootcamp.bootcampsbforum.infra.Syscode;
@@ -69,7 +71,7 @@ public class UserJsonPlaceHolder implements UserService {
 
 
   @Override
-  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.User> getUsersByAddrLatGreaterThan(
+  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity> getUsersByAddrLatGreaterThan(
       Double latitude) {
     return userRepository.findAllByAddrLatGreaterThan(latitude);
   }
@@ -80,12 +82,12 @@ public class UserJsonPlaceHolder implements UserService {
   }
 
   @Override
-  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.User> getAllByEmailOrPhone(
+  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity> getAllByEmailOrPhone(
       String email, String phone, Sort sort) {
     return userRepository.findAllByEmailOrPhone(email, phone, sort);
   }
 
-  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.User> getAllByEmailOrPhone(
+  public List<com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity> getAllByEmailOrPhone(
       String email, String phone) {
     Sort sort = Sort.by("email").ascending().and(Sort.by("phone").ascending());
     return userRepository.findAllByEmailOrPhone(email, phone, sort);
@@ -99,12 +101,15 @@ public class UserJsonPlaceHolder implements UserService {
 
   @Override
   @Transactional
-  public com.vtxlab.bootcamp.bootcampsbforum.entity.User updateUserById(Long userId,
-      com.vtxlab.bootcamp.bootcampsbforum.entity.User newUser) {
+  public com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity updateUserById(
+      Long userId,
+      com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity newUser) {
 
     // entityManager.find() -> select
-    com.vtxlab.bootcamp.bootcampsbforum.entity.User oldUser = entityManager
-        .find(com.vtxlab.bootcamp.bootcampsbforum.entity.User.class, userId);
+    com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity oldUser =
+        entityManager.find(
+            com.vtxlab.bootcamp.bootcampsbforum.entity.UserEntity.class,
+            userId);
 
     oldUser.setId(newUser.getId());
     oldUser.setName(newUser.getName());
@@ -128,6 +133,16 @@ public class UserJsonPlaceHolder implements UserService {
     // // select again to check if update is successful
     // com.vtxlab.bootcamp.bootcampsbforum.entity.User updatedUser = entityManager.find(com.vtxlab.bootcamp.bootcampsbforum.entity.User.class, userId);
     // }
+  }
 
+  @Override
+  @Transactional
+  public UserEntity save(UserPostRequestDTO userPostRequestDTO) {
+    UserEntity userEntity =
+        UserEntity.builder().name(userPostRequestDTO.getName())
+            .email(userPostRequestDTO.getEmail()).build();
+    userRepository.save(userEntity);
+    return userEntity;
   }
 }
+
