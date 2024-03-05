@@ -33,4 +33,6 @@ public class CoingeckoDTO {
   private double low24h;
   @JsonProperty("price_change_percentage_24h")
   private double priceChangePercentage24h;
+  @JsonProperty("total_volume")
+  private long totalVolume;
 }

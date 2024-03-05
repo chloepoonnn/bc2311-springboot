@@ -12,10 +12,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-// @ToString
-// @Builder
-// @AllArgsConstructor
-// @NoArgsConstructor
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Coingecko {
   private String id;
 
